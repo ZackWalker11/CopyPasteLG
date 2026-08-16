@@ -1165,10 +1165,13 @@ document.getElementById("copyButton")
 
     // -------------------------------------------------
     // COLUMN HEADER
+    //
+    // Each column is designed to match the spacing
+    // used around the emoji below.
     // -------------------------------------------------
 
     const columnHeader =
-        "       | NGM | DSTK1 | DSTK2 | DSTK3 |";
+        "       |   NGM    |   STK1    |   STK2    |   STK3    |";
 
 
     // -------------------------------------------------
@@ -1208,8 +1211,18 @@ document.getElementById("copyButton")
                     : "✅";
 
 
-                // Fixed-width spacing around each symbol
-                output += "  " + symbol + "   |";
+                /*
+                 * Extra spacing around each emoji:
+                 *
+                 * 3 spaces before
+                 * emoji
+                 * 4 spaces after
+                 *
+                 * This gives the symbols more room and
+                 * keeps them visually centered.
+                 */
+
+                output += "   " + symbol + "    |";
 
             });
 
