@@ -1,236 +1,275 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
+
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
 <title>MI2 Image Quality Check</title>
+
 
 <style>
 
-    * {
-        box-sizing: border-box;
-    }
+/* =====================================================
+   GENERAL
+===================================================== */
+
+* {
+    box-sizing: border-box;
+}
+
+body {
+    font-family: Arial, sans-serif;
+    background: #121212;
+    color: #f1f1f1;
+    margin: 0;
+    padding: 20px;
+    text-align: center;
+    transition: background 0.3s, color 0.3s;
+}
+
+.container {
+    max-width: 600px;
+    margin: auto;
+    background: #1e1e1e;
+    padding: 20px;
+    border-radius: 12px;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.4);
+    transition: background 0.3s, box-shadow 0.3s;
+}
+
+h1 {
+    margin: 0;
+    font-size: 24px;
+}
+
+#dateTime {
+    margin-top: 5px;
+    margin-bottom: 20px;
+    font-size: 18px;
+    color: #aaa;
+}
+
+
+/* =====================================================
+   DARK / LIGHT MODE BUTTON
+===================================================== */
+
+.theme-toggle {
+    position: fixed;
+    top: 12px;
+    right: 12px;
+    width: 48px;
+    height: 48px;
+    border-radius: 50%;
+    border: none;
+    background: #333;
+    color: white;
+    font-size: 23px;
+    cursor: pointer;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.3);
+    z-index: 1000;
+}
+
+.theme-toggle:active {
+    transform: scale(0.9);
+}
+
+
+/* =====================================================
+   TABLE
+===================================================== */
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    table-layout: fixed;
+}
+
+th {
+    padding: 10px 3px;
+    font-size: 14px;
+    color: #ddd;
+}
+
+td {
+    padding: 8px 3px;
+}
+
+.row-label {
+    font-weight: bold;
+    text-align: left;
+    padding-left: 5px;
+}
+
+
+/* =====================================================
+   SECTION HEADERS
+===================================================== */
+
+.section-header td {
+    padding: 16px 5px 7px;
+    text-align: left;
+    font-size: 14px;
+    font-weight: bold;
+    color: #aaa;
+    border-bottom: 1px solid #444;
+}
+
+.section-header:first-child td {
+    padding-top: 8px;
+}
+
+
+/* =====================================================
+   GREEN / RED STATUS BUTTONS
+===================================================== */
+
+.status {
+    width: 48px;
+    height: 48px;
+    border-radius: 50%;
+    border: none;
+    background: #28a745;
+    color: white;
+    font-size: 28px;
+    font-weight: bold;
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.status.bad {
+    background: #dc3545;
+}
+
+.status:active {
+    transform: scale(0.9);
+}
+
+
+/* =====================================================
+   COPY / RESET BUTTONS
+===================================================== */
+
+.buttons {
+    margin-top: 25px;
+    display: flex;
+    gap: 10px;
+    justify-content: center;
+}
+
+.action-button {
+    border: none;
+    border-radius: 8px;
+    padding: 14px 20px;
+    font-size: 16px;
+    font-weight: bold;
+    color: white;
+    cursor: pointer;
+}
+
+#copyButton {
+    background: #007bff;
+}
+
+#resetButton {
+    background: #6c757d;
+}
+
+#message {
+    margin-top: 15px;
+    color: #28a745;
+    font-weight: bold;
+    min-height: 20px;
+}
+
+
+/* =====================================================
+   LIGHT MODE
+===================================================== */
+
+body.light {
+    background: #f4f4f4;
+    color: #222;
+}
+
+body.light .container {
+    background: white;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+}
+
+body.light #dateTime {
+    color: #555;
+}
+
+body.light th {
+    color: #222;
+}
+
+body.light .theme-toggle {
+    background: #e6e6e6;
+    color: #222;
+}
+
+body.light .section-header td {
+    color: #555;
+    border-bottom-color: #ddd;
+}
+
+
+/* =====================================================
+   SMALL SCREEN
+===================================================== */
+
+@media (max-width: 500px) {
 
     body {
-        font-family: Arial, sans-serif;
-        background: #121212;
-        color: #f1f1f1;
-        margin: 0;
-        padding: 20px;
-        text-align: center;
-        transition: background 0.3s, color 0.3s;
+        padding: 12px;
     }
 
     .container {
-        max-width: 600px;
-        margin: auto;
-        background: #1e1e1e;
-        padding: 20px;
-        border-radius: 12px;
-        box-shadow: 0 2px 10px rgba(0,0,0,0.4);
-        transition: background 0.3s, box-shadow 0.3s;
+        padding: 15px 8px;
     }
 
     h1 {
-        margin: 0;
-        font-size: 24px;
-    }
-
-    #dateTime {
-        margin-top: 5px;
-        margin-bottom: 20px;
-        font-size: 18px;
-        color: #aaa;
-    }
-
-
-    /* -----------------------------
-       DARK / LIGHT MODE BUTTON
-    ----------------------------- */
-
-    .theme-toggle {
-        position: fixed;
-        top: 12px;
-        right: 12px;
-        width: 48px;
-        height: 48px;
-        border-radius: 50%;
-        border: none;
-        background: #333;
-        color: white;
-        font-size: 23px;
-        cursor: pointer;
-        box-shadow: 0 2px 8px rgba(0,0,0,0.3);
-        z-index: 1000;
-    }
-
-    .theme-toggle:active {
-        transform: scale(0.9);
-    }
-
-
-    /* -----------------------------
-       TABLE
-    ----------------------------- */
-
-    table {
-        width: 100%;
-        border-collapse: collapse;
-        table-layout: fixed;
+        font-size: 21px;
     }
 
     th {
-        padding: 10px 3px;
-        font-size: 14px;
-        color: #ddd;
+        font-size: 12px;
     }
-
-    td {
-        padding: 8px 3px;
-    }
-
-    .row-label {
-        font-weight: bold;
-        text-align: left;
-        padding-left: 5px;
-    }
-
-
-    /* -----------------------------
-       GREEN / RED STATUS BUTTONS
-    ----------------------------- */
 
     .status {
-        width: 48px;
-        height: 48px;
-        border-radius: 50%;
-        border: none;
-        background: #28a745;
-        color: white;
-        font-size: 28px;
-        font-weight: bold;
-        cursor: pointer;
-        display: inline-flex;
-        align-items: center;
-        justify-content: center;
-    }
-
-    .status.bad {
-        background: #dc3545;
-    }
-
-    .status:active {
-        transform: scale(0.9);
-    }
-
-
-    /* -----------------------------
-       COPY / RESET BUTTONS
-    ----------------------------- */
-
-    .buttons {
-        margin-top: 25px;
-        display: flex;
-        gap: 10px;
-        justify-content: center;
+        width: 44px;
+        height: 44px;
+        font-size: 25px;
     }
 
     .action-button {
-        border: none;
-        border-radius: 8px;
-        padding: 14px 20px;
-        font-size: 16px;
-        font-weight: bold;
-        color: white;
-        cursor: pointer;
+        padding: 13px 15px;
+        font-size: 14px;
     }
 
-    #copyButton {
-        background: #007bff;
+    .section-header td {
+        font-size: 13px;
     }
 
-    #resetButton {
-        background: #6c757d;
-    }
-
-    #message {
-        margin-top: 15px;
-        color: #28a745;
-        font-weight: bold;
-        min-height: 20px;
-    }
-
-
-    /* -----------------------------
-       LIGHT MODE
-    ----------------------------- */
-
-    body.light {
-        background: #f4f4f4;
-        color: #222;
-    }
-
-    body.light .container {
-        background: white;
-        box-shadow: 0 2px 10px rgba(0,0,0,0.1);
-    }
-
-    body.light #dateTime {
-        color: #555;
-    }
-
-    body.light th {
-        color: #222;
-    }
-
-    body.light .theme-toggle {
-        background: #e6e6e6;
-        color: #222;
-    }
-
-
-    /* -----------------------------
-       SMALL SCREEN
-    ----------------------------- */
-
-    @media (max-width: 500px) {
-
-        body {
-            padding: 12px;
-        }
-
-        .container {
-            padding: 15px 8px;
-        }
-
-        h1 {
-            font-size: 21px;
-        }
-
-        th {
-            font-size: 12px;
-        }
-
-        .status {
-            width: 44px;
-            height: 44px;
-            font-size: 25px;
-        }
-
-        .action-button {
-            padding: 13px 15px;
-            font-size: 14px;
-        }
-    }
+}
 
 </style>
+
 </head>
 
 
 <body>
 
 
-<!-- DARK / LIGHT MODE BUTTON -->
+<!-- =====================================================
+     DARK / LIGHT MODE BUTTON
+===================================================== -->
 
 <button
     class="theme-toggle"
@@ -242,21 +281,28 @@
 
 <div class="container">
 
+
     <h1>MI2 Image Quality Check</h1>
 
     <div id="dateTime"></div>
 
+
+    <!-- =================================================
+         TABLE
+    ================================================== -->
 
     <table>
 
         <thead>
 
             <tr>
+
                 <th></th>
                 <th>NGM</th>
                 <th>DSTK1</th>
                 <th>DSTK2</th>
-                <th>DSTK 3</th>
+                <th>DSTK3</th>
+
             </tr>
 
         </thead>
@@ -265,12 +311,21 @@
         <tbody>
 
 
-            <!-- =========================
+            <!-- =================================================
                  3 SERIES
-            ========================== -->
+            ================================================== -->
+
+            <tr class="section-header">
+
+                <td colspan="5">
+                    3 SERIES
+                </td>
+
+            </tr>
 
 
             <tr>
+
                 <td class="row-label">3-1</td>
 
                 <td>
@@ -296,10 +351,12 @@
                         data-row="3-1"
                         data-col="DSTK3">○</button>
                 </td>
+
             </tr>
 
 
             <tr>
+
                 <td class="row-label">3-2</td>
 
                 <td>
@@ -325,10 +382,12 @@
                         data-row="3-2"
                         data-col="DSTK3">○</button>
                 </td>
+
             </tr>
 
 
             <tr>
+
                 <td class="row-label">3-3</td>
 
                 <td>
@@ -354,10 +413,12 @@
                         data-row="3-3"
                         data-col="DSTK3">○</button>
                 </td>
+
             </tr>
 
 
             <tr>
+
                 <td class="row-label">3-4</td>
 
                 <td>
@@ -383,10 +444,12 @@
                         data-row="3-4"
                         data-col="DSTK3">○</button>
                 </td>
+
             </tr>
 
 
             <tr>
+
                 <td class="row-label">3-5</td>
 
                 <td>
@@ -412,16 +475,25 @@
                         data-row="3-5"
                         data-col="DSTK3">○</button>
                 </td>
+
             </tr>
 
 
-
-            <!-- =========================
+            <!-- =================================================
                  4 SERIES
-            ========================== -->
+            ================================================== -->
+
+            <tr class="section-header">
+
+                <td colspan="5">
+                    4 SERIES
+                </td>
+
+            </tr>
 
 
             <tr>
+
                 <td class="row-label">4-1</td>
 
                 <td>
@@ -447,10 +519,12 @@
                         data-row="4-1"
                         data-col="DSTK3">○</button>
                 </td>
+
             </tr>
 
 
             <tr>
+
                 <td class="row-label">4-2</td>
 
                 <td>
@@ -476,10 +550,12 @@
                         data-row="4-2"
                         data-col="DSTK3">○</button>
                 </td>
+
             </tr>
 
 
             <tr>
+
                 <td class="row-label">4-3</td>
 
                 <td>
@@ -505,10 +581,12 @@
                         data-row="4-3"
                         data-col="DSTK3">○</button>
                 </td>
+
             </tr>
 
 
             <tr>
+
                 <td class="row-label">4-4</td>
 
                 <td>
@@ -534,10 +612,12 @@
                         data-row="4-4"
                         data-col="DSTK3">○</button>
                 </td>
+
             </tr>
 
 
             <tr>
+
                 <td class="row-label">4-5</td>
 
                 <td>
@@ -563,10 +643,12 @@
                         data-row="4-5"
                         data-col="DSTK3">○</button>
                 </td>
+
             </tr>
 
 
             <tr>
+
                 <td class="row-label">4-6</td>
 
                 <td>
@@ -592,16 +674,25 @@
                         data-row="4-6"
                         data-col="DSTK3">○</button>
                 </td>
+
             </tr>
 
 
-
-            <!-- =========================
+            <!-- =================================================
                  5 SERIES
-            ========================== -->
+            ================================================== -->
+
+            <tr class="section-header">
+
+                <td colspan="5">
+                    5 SERIES
+                </td>
+
+            </tr>
 
 
             <tr>
+
                 <td class="row-label">5-1</td>
 
                 <td>
@@ -627,10 +718,12 @@
                         data-row="5-1"
                         data-col="DSTK3">○</button>
                 </td>
+
             </tr>
 
 
             <tr>
+
                 <td class="row-label">5-2</td>
 
                 <td>
@@ -656,10 +749,12 @@
                         data-row="5-2"
                         data-col="DSTK3">○</button>
                 </td>
+
             </tr>
 
 
             <tr>
+
                 <td class="row-label">5-3</td>
 
                 <td>
@@ -685,10 +780,12 @@
                         data-row="5-3"
                         data-col="DSTK3">○</button>
                 </td>
+
             </tr>
 
 
             <tr>
+
                 <td class="row-label">5-4</td>
 
                 <td>
@@ -714,10 +811,12 @@
                         data-row="5-4"
                         data-col="DSTK3">○</button>
                 </td>
+
             </tr>
 
 
             <tr>
+
                 <td class="row-label">5-5</td>
 
                 <td>
@@ -743,10 +842,12 @@
                         data-row="5-5"
                         data-col="DSTK3">○</button>
                 </td>
+
             </tr>
 
 
             <tr>
+
                 <td class="row-label">5-6</td>
 
                 <td>
@@ -772,10 +873,12 @@
                         data-row="5-6"
                         data-col="DSTK3">○</button>
                 </td>
+
             </tr>
 
 
             <tr>
+
                 <td class="row-label">5-7</td>
 
                 <td>
@@ -801,10 +904,12 @@
                         data-row="5-7"
                         data-col="DSTK3">○</button>
                 </td>
+
             </tr>
 
 
             <tr>
+
                 <td class="row-label">5-8</td>
 
                 <td>
@@ -830,15 +935,25 @@
                         data-row="5-8"
                         data-col="DSTK3">○</button>
                 </td>
+
             </tr>
 
 
-            <!-- =========================
-                 FINAL 3-H ROW
-            ========================== -->
+            <!-- =================================================
+                 3-H
+            ================================================== -->
+
+            <tr class="section-header">
+
+                <td colspan="5">
+                    3-H
+                </td>
+
+            </tr>
 
 
             <tr>
+
                 <td class="row-label">3-H</td>
 
                 <td>
@@ -864,6 +979,7 @@
                         data-row="3-H"
                         data-col="DSTK3">○</button>
                 </td>
+
             </tr>
 
 
@@ -872,26 +988,34 @@
     </table>
 
 
-    <!-- COPY / RESET -->
+    <!-- =================================================
+         COPY / RESET BUTTONS
+    ================================================== -->
 
     <div class="buttons">
 
         <button
             class="action-button"
             id="copyButton">
+
             📋 Copy to Phone
+
         </button>
+
 
         <button
             class="action-button"
             id="resetButton">
+
             ↻ Reset
+
         </button>
 
     </div>
 
 
     <div id="message"></div>
+
 
 </div>
 
@@ -900,9 +1024,9 @@
 <script>
 
 
-// ----------------------------------------------------
+// =====================================================
 // DATE / TIME
-// ----------------------------------------------------
+// =====================================================
 
 function updateDateTime() {
 
@@ -920,6 +1044,7 @@ function updateDateTime() {
     const minutes =
         String(now.getMinutes()).padStart(2, '0');
 
+
     document.getElementById("dateTime").textContent =
         `${month}/${day} - ${hours}:${minutes}`;
 }
@@ -933,15 +1058,16 @@ setInterval(updateDateTime, 60000);
 
 
 
-// ----------------------------------------------------
+// =====================================================
 // GREEN / RED BUTTONS
-// ----------------------------------------------------
+// =====================================================
 
 document.querySelectorAll(".status").forEach(button => {
 
     button.addEventListener("click", function() {
 
         this.classList.toggle("bad");
+
 
         if (this.classList.contains("bad")) {
 
@@ -959,9 +1085,9 @@ document.querySelectorAll(".status").forEach(button => {
 
 
 
-// ----------------------------------------------------
+// =====================================================
 // COPY RESULT
-// ----------------------------------------------------
+// =====================================================
 
 document.getElementById("copyButton")
 .addEventListener("click", function() {
@@ -974,85 +1100,143 @@ document.getElementById("copyButton")
     let output = "";
 
 
+    // -------------------------------------------------
+    // TITLE
+    // -------------------------------------------------
+
     output += "MI2 Image Quality Check\n";
 
     output += dateTime + "\n\n";
 
 
-    // Header
+    // -------------------------------------------------
+    // COLUMN HEADER
+    // -------------------------------------------------
 
     output +=
-        "       NGM    DSTK1    DSTK2    DSTK 3\n";
+        "       | NGM | DSTK1 | DSTK2 | DSTK3 |\n";
+
+    output +=
+        "----------------------------------------\n";
 
 
-    // All rows
+    // -------------------------------------------------
+    // GROUPS
+    // -------------------------------------------------
 
-    const rows = [
+    const groups = [
 
-        "3-1",
-        "3-2",
-        "3-3",
-        "3-4",
-        "3-5",
+        {
+            title: "3 SERIES",
+            rows: [
+                "3-1",
+                "3-2",
+                "3-3",
+                "3-4",
+                "3-5"
+            ]
+        },
 
-        "4-1",
-        "4-2",
-        "4-3",
-        "4-4",
-        "4-5",
-        "4-6",
+        {
+            title: "4 SERIES",
+            rows: [
+                "4-1",
+                "4-2",
+                "4-3",
+                "4-4",
+                "4-5",
+                "4-6"
+            ]
+        },
 
-        "5-1",
-        "5-2",
-        "5-3",
-        "5-4",
-        "5-5",
-        "5-6",
-        "5-7",
-        "5-8",
+        {
+            title: "5 SERIES",
+            rows: [
+                "5-1",
+                "5-2",
+                "5-3",
+                "5-4",
+                "5-5",
+                "5-6",
+                "5-7",
+                "5-8"
+            ]
+        },
 
-        "3-H"
+        {
+            title: "3-H",
+            rows: [
+                "3-H"
+            ]
+        }
 
     ];
 
 
-    rows.forEach(row => {
 
+    // -------------------------------------------------
+    // BUILD EACH GROUP
+    // -------------------------------------------------
 
-        output += row + "    ";
-
-
-        const buttons =
-            document.querySelectorAll(
-                `.status[data-row="${row}"]`
-            );
-
-
-        buttons.forEach(button => {
-
-
-            if (button.classList.contains("bad")) {
-
-                output += "❌       ";
-
-            } else {
-
-                output += "✅       ";
-
-            }
-
-        });
+    groups.forEach(group => {
 
 
         output += "\n";
+
+        output += group.title + "\n";
+
+
+        group.rows.forEach(row => {
+
+
+            // Start row
+            output += row.padEnd(6, " ") + "| ";
+
+
+            // Find buttons for this row
+            const buttons =
+                document.querySelectorAll(
+                    `.status[data-row="${row}"]`
+                );
+
+
+            buttons.forEach((button, index) => {
+
+
+                const symbol =
+                    button.classList.contains("bad")
+                    ? "❌"
+                    : "✅";
+
+
+                output += symbol;
+
+
+                // Add spacing between columns
+                if (index < buttons.length - 1) {
+
+                    output += "   | ";
+
+                } else {
+
+                    output += " |";
+
+                }
+
+            });
+
+
+            output += "\n";
+
+        });
 
     });
 
 
 
-    // ------------------------------------------------
+    // -------------------------------------------------
     // COPY TO CLIPBOARD
-    // ------------------------------------------------
+    // -------------------------------------------------
 
     navigator.clipboard.writeText(output)
 
@@ -1098,9 +1282,9 @@ document.getElementById("copyButton")
 
 
 
-// ----------------------------------------------------
+// =====================================================
 // RESET
-// ----------------------------------------------------
+// =====================================================
 
 document.getElementById("resetButton")
 .addEventListener("click", function() {
@@ -1123,9 +1307,9 @@ document.getElementById("resetButton")
 
 
 
-// ----------------------------------------------------
+// =====================================================
 // DARK / LIGHT MODE
-// ----------------------------------------------------
+// =====================================================
 
 const themeToggle =
     document.getElementById("themeToggle");
@@ -1165,5 +1349,7 @@ themeToggle.addEventListener("click", function() {
 
 </script>
 
+
 </body>
+
 </html>
