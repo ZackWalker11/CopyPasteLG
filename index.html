@@ -299,9 +299,9 @@ body.light .section-header td {
 
                 <th></th>
                 <th>NGM</th>
-                <th>DSTK1</th>
-                <th>DSTK2</th>
-                <th>DSTK3</th>
+                <th>DSTK#1</th>
+                <th>DSTK#2</th>
+                <th>DSTK#3</th>
 
             </tr>
 
@@ -312,13 +312,13 @@ body.light .section-header td {
 
 
             <!-- =================================================
-                 3 SERIES
+                 LINE 3
             ================================================== -->
 
             <tr class="section-header">
 
                 <td colspan="5">
-                    3 SERIES
+                    LINE 3
                 </td>
 
             </tr>
@@ -480,13 +480,13 @@ body.light .section-header td {
 
 
             <!-- =================================================
-                 4 SERIES
+                 LINE 4
             ================================================== -->
 
             <tr class="section-header">
 
                 <td colspan="5">
-                    4 SERIES
+                    LINE 4
                 </td>
 
             </tr>
@@ -679,13 +679,13 @@ body.light .section-header td {
 
 
             <!-- =================================================
-                 5 SERIES
+                 LINE 5
             ================================================== -->
 
             <tr class="section-header">
 
                 <td colspan="5">
-                    5 SERIES
+                    LINE 5
                 </td>
 
             </tr>
@@ -940,13 +940,13 @@ body.light .section-header td {
 
 
             <!-- =================================================
-                 3-H
+                 HALF CELL
             ================================================== -->
 
             <tr class="section-header">
 
                 <td colspan="5">
-                    3-H
+                    HALF CELL
                 </td>
 
             </tr>
@@ -1111,13 +1111,16 @@ document.getElementById("copyButton")
 
     // -------------------------------------------------
     // COLUMN HEADER
+    //
+    // Fixed-width columns make the symbols line up
+    // much better when pasted into Kakao.
     // -------------------------------------------------
 
     output +=
-        "       | NGM | DSTK1 | DSTK2 | DSTK3 |\n";
+        "       | NGM | DSTK#1 | DSTK#2 | DSTK#3 |\n";
 
     output +=
-        "----------------------------------------\n";
+        "------------------------------------------\n";
 
 
     // -------------------------------------------------
@@ -1127,7 +1130,7 @@ document.getElementById("copyButton")
     const groups = [
 
         {
-            title: "3 SERIES",
+            title: "LINE 3",
             rows: [
                 "3-1",
                 "3-2",
@@ -1138,7 +1141,7 @@ document.getElementById("copyButton")
         },
 
         {
-            title: "4 SERIES",
+            title: "LINE 4",
             rows: [
                 "4-1",
                 "4-2",
@@ -1150,7 +1153,7 @@ document.getElementById("copyButton")
         },
 
         {
-            title: "5 SERIES",
+            title: "LINE 5",
             rows: [
                 "5-1",
                 "5-2",
@@ -1164,7 +1167,7 @@ document.getElementById("copyButton")
         },
 
         {
-            title: "3-H",
+            title: "HALF CELL",
             rows: [
                 "3-H"
             ]
@@ -1180,17 +1183,12 @@ document.getElementById("copyButton")
 
     groups.forEach(group => {
 
-
         output += "\n";
 
         output += group.title + "\n";
 
 
         group.rows.forEach(row => {
-
-
-            // Start row
-            output += row.padEnd(6, " ") + "| ";
 
 
             // Find buttons for this row
@@ -1200,33 +1198,42 @@ document.getElementById("copyButton")
                 );
 
 
-            buttons.forEach((button, index) => {
+            // Collect the four symbols
+            const symbols = [];
 
+
+            buttons.forEach(button => {
 
                 const symbol =
                     button.classList.contains("bad")
                     ? "❌"
                     : "✅";
 
-
-                output += symbol;
-
-
-                // Add spacing between columns
-                if (index < buttons.length - 1) {
-
-                    output += "   | ";
-
-                } else {
-
-                    output += " |";
-
-                }
+                symbols.push(symbol);
 
             });
 
 
-            output += "\n";
+            // -------------------------------------------------
+            // FIXED WIDTH ROW
+            // -------------------------------------------------
+            //
+            // Each column has a defined amount of space.
+            // This keeps the check marks and X's aligned
+            // underneath NGM / DSTK#1 / DSTK#2 / DSTK#3.
+            //
+
+            output +=
+                row.padEnd(7, " ") +
+                "| " +
+                symbols[0] +
+                "   |   " +
+                symbols[1] +
+                "   |   " +
+                symbols[2] +
+                "   |   " +
+                symbols[3] +
+                "   |\n";
 
         });
 
